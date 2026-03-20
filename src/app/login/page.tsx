@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
-import { IoShieldCheckmark } from "react-icons/io5";
+import { IoShieldCheckmark, IoLogoGoogle } from "react-icons/io5";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -75,6 +75,33 @@ export default function LoginPage() {
             {loading ? "Signing in..." : "Sign In"}
           </button>
         </form>
+
+        <div className="mt-4 flex items-center gap-3">
+          <div className="h-px flex-1 bg-border" />
+          <span className="text-xs text-gray-500">or</span>
+          <div className="h-px flex-1 bg-border" />
+        </div>
+
+        <button
+          onClick={async () => {
+            setError("");
+            setLoading(true);
+            try {
+              await signInWithPopup(auth, new GoogleAuthProvider());
+              router.replace("/");
+            } catch (err: unknown) {
+              const message = err instanceof Error ? err.message : "Google login failed";
+              setError(message);
+            } finally {
+              setLoading(false);
+            }
+          }}
+          disabled={loading}
+          className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg border border-border bg-surface px-4 py-2.5 font-medium text-foreground transition-colors hover:bg-border disabled:opacity-50"
+        >
+          <IoLogoGoogle className="h-5 w-5 text-saffron" />
+          Sign in with Google
+        </button>
       </div>
     </div>
   );
