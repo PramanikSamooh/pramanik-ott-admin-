@@ -19,7 +19,7 @@ export default function LoginPage() {
     setLoading(true);
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      router.replace("/");
+      router.replace("/home-layout");
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : "Login failed";
       setError(message.includes("invalid") ? "Invalid email or password" : message);
@@ -88,7 +88,7 @@ export default function LoginPage() {
             setLoading(true);
             try {
               await signInWithPopup(auth, new GoogleAuthProvider());
-              router.replace("/");
+              router.replace("/home-layout");
             } catch (err: unknown) {
               const message = err instanceof Error ? err.message : "Google login failed";
               setError(message);

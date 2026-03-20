@@ -23,7 +23,7 @@ import {
 } from "react-icons/io5";
 
 const navItems = [
-  { href: "/", label: "Dashboard", icon: IoGridOutline },
+  { href: "/dashboard", label: "Dashboard", icon: IoGridOutline },
   { href: "/home-layout", label: "Home Layout", icon: IoHomeOutline },
   { href: "/announcements", label: "Announcements", icon: IoMegaphoneOutline },
   { href: "/pathshala", label: "Pathshala", icon: IoSchoolOutline },
