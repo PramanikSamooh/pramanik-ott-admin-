@@ -15,6 +15,7 @@ import {
   IoPlayOutline,
   IoRadioOutline,
   IoLayersOutline,
+  IoListOutline,
   IoVideocamOutline,
   IoSettingsOutline,
   IoMenuOutline,
@@ -25,6 +26,7 @@ import {
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: IoGridOutline },
   { href: "/home-layout", label: "Home Layout", icon: IoHomeOutline },
+  { href: "/playlists", label: "Playlists", icon: IoListOutline },
   { href: "/announcements", label: "Announcements", icon: IoMegaphoneOutline },
   { href: "/pathshala", label: "Pathshala", icon: IoSchoolOutline },
   { href: "/shorts", label: "Shorts", icon: IoPlayOutline },
