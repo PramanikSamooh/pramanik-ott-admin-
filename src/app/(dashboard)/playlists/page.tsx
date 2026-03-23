@@ -49,7 +49,9 @@ const SECTIONS = [
   { value: "bhawna-yog", label: "Bhawna Yog" },
   { value: "swadhyay", label: "Swadhyay" },
   { value: "events", label: "Events" },
-  { value: "kids", label: "Kids" },
+  { value: "kids", label: "Kids / Animated" },
+  { value: "poojan", label: "Poojan & Path" },
+  { value: "granth", label: "Granth Vachan" },
 ] as const;
 
 const SECTION_VALUES = SECTIONS.map((s) => s.value);
