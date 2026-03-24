@@ -31,6 +31,8 @@ interface Announcement {
   actionUrl: string;
   priority: number;
   active: boolean;
+  showOnMobile: boolean;
+  showOnTv: boolean;
   startDate: string;
   endDate: string;
   createdAt: Timestamp | null;
@@ -44,6 +46,8 @@ const emptyAnnouncement: Omit<Announcement, "id" | "createdAt"> = {
   actionUrl: "",
   priority: 0,
   active: true,
+  showOnMobile: true,
+  showOnTv: true,
   startDate: "",
   endDate: "",
 };
@@ -92,6 +96,8 @@ export default function AnnouncementsPage() {
       actionUrl: a.actionUrl,
       priority: a.priority,
       active: a.active,
+      showOnMobile: a.showOnMobile ?? true,
+      showOnTv: a.showOnTv ?? true,
       startDate: a.startDate || "",
       endDate: a.endDate || "",
     });
@@ -167,6 +173,7 @@ export default function AnnouncementsPage() {
               <th className="px-4 py-3 text-left font-medium text-gray-400">Type</th>
               <th className="px-4 py-3 text-left font-medium text-gray-400">Priority</th>
               <th className="px-4 py-3 text-left font-medium text-gray-400">Active</th>
+              <th className="px-4 py-3 text-left font-medium text-gray-400">Platform</th>
               <th className="px-4 py-3 text-left font-medium text-gray-400">Dates</th>
               <th className="px-4 py-3 text-right font-medium text-gray-400">Actions</th>
             </tr>
@@ -174,7 +181,7 @@ export default function AnnouncementsPage() {
           <tbody className="divide-y divide-border">
             {announcements.length === 0 ? (
               <tr>
-                <td colSpan={6} className="px-4 py-12 text-center text-gray-500">
+                <td colSpan={7} className="px-4 py-12 text-center text-gray-500">
                   No announcements yet.
                 </td>
               </tr>
@@ -198,6 +205,12 @@ export default function AnnouncementsPage() {
                     >
                       <div className={`h-4 w-4 rounded-full bg-white transition-transform ${a.active ? "translate-x-4.5" : "translate-x-0.5"}`} />
                     </button>
+                  </td>
+                  <td className="px-4 py-3">
+                    <div className="flex gap-1">
+                      {(a.showOnMobile ?? true) && <span className="rounded bg-green-500/20 px-1.5 py-0.5 text-[10px] text-green-400">Mobile</span>}
+                      {(a.showOnTv ?? true) && <span className="rounded bg-blue-500/20 px-1.5 py-0.5 text-[10px] text-blue-400">TV</span>}
+                    </div>
                   </td>
                   <td className="px-4 py-3 text-xs text-gray-400">
                     {a.startDate && <div>From: {a.startDate}</div>}
@@ -274,9 +287,19 @@ export default function AnnouncementsPage() {
                   <input type="date" value={form.endDate} onChange={(e) => setForm({ ...form, endDate: e.target.value })} className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none focus:border-saffron" />
                 </div>
               </div>
-              <div className="flex items-center gap-2">
-                <input type="checkbox" id="active" checked={form.active} onChange={(e) => setForm({ ...form, active: e.target.checked })} className="accent-saffron" />
-                <label htmlFor="active" className="text-sm text-gray-300">Active</label>
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2">
+                  <input type="checkbox" id="active" checked={form.active} onChange={(e) => setForm({ ...form, active: e.target.checked })} className="accent-saffron" />
+                  <label htmlFor="active" className="text-sm text-gray-300">Active</label>
+                </div>
+                <div className="flex items-center gap-2">
+                  <input type="checkbox" id="showOnMobile" checked={form.showOnMobile} onChange={(e) => setForm({ ...form, showOnMobile: e.target.checked })} className="accent-green-500" />
+                  <label htmlFor="showOnMobile" className="text-sm text-gray-300">Mobile</label>
+                </div>
+                <div className="flex items-center gap-2">
+                  <input type="checkbox" id="showOnTv" checked={form.showOnTv} onChange={(e) => setForm({ ...form, showOnTv: e.target.checked })} className="accent-blue-500" />
+                  <label htmlFor="showOnTv" className="text-sm text-gray-300">TV</label>
+                </div>
               </div>
             </div>
             <div className="mt-5 flex justify-end gap-2">

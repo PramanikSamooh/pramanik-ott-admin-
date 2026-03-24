@@ -25,6 +25,7 @@ const COLLECTIONS = [
   { value: "curated_nitya_poojan", label: "Nitya Poojan" },
   { value: "curated_path", label: "Path" },
   { value: "curated_stotra", label: "Stotra" },
+  { value: "curated_bhajan", label: "Bhajan" },
   { value: "curated_granth_vachan", label: "Granth Vachan" },
 ];
 
