@@ -22,6 +22,8 @@ import {
   IoMenuOutline,
   IoCloseOutline,
   IoLogOutOutline,
+  IoImageOutline,
+  IoPulseOutline,
 } from "react-icons/io5";
 
 const navItems = [
@@ -32,6 +34,8 @@ const navItems = [
   { href: "/pathshala", label: "Pathshala", icon: IoSchoolOutline },
   { href: "/shorts", label: "Shorts", icon: IoPlayOutline },
   { href: "/donations", label: "Donations", icon: IoHeartOutline },
+  { href: "/hero", label: "Hero Videos", icon: IoImageOutline },
+  { href: "/live", label: "Live Control", icon: IoPulseOutline },
   { href: "/live-config", label: "Live Config", icon: IoRadioOutline },
   { href: "/categories", label: "Categories", icon: IoLayersOutline },
   { href: "/videos", label: "Videos", icon: IoVideocamOutline },
