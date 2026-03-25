@@ -9,8 +9,7 @@ import { useRouter } from "next/navigation";
 const ALLOWED_EMAILS = [
   "gunayatan.org@gmail.com",
   "sachin@ifsjaipur.com",
-  "pramaniksamooh@gmail.com",
-  // Add more admin emails here
+  "admin@munipramansagar.net",
 ];
 
 export default function AuthGuard({ children }: { children: React.ReactNode }) {
