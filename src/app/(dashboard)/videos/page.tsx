@@ -12,7 +12,14 @@ import {
 } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { useToast } from "@/components/Toast";
-import { IoSearchOutline, IoPlayOutline, IoChevronForward, IoChevronBack } from "react-icons/io5";
+import {
+  IoSearchOutline,
+  IoPlayOutline,
+  IoChevronForward,
+  IoChevronBack,
+  IoCopyOutline,
+  IoCheckmarkOutline,
+} from "react-icons/io5";
 
 interface Video {
   id: string;
@@ -24,6 +31,34 @@ interface Video {
 }
 
 const PAGE_SIZE = 25;
+
+function CopyButton({ text }: { text: string }) {
+  const [copied, setCopied] = useState(false);
+
+  async function handleCopy() {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch {
+      // fallback
+    }
+  }
+
+  return (
+    <button
+      onClick={handleCopy}
+      title="Copy video ID"
+      className="rounded p-1 text-gray-400 transition-colors hover:bg-surface-hover hover:text-foreground"
+    >
+      {copied ? (
+        <IoCheckmarkOutline className="h-3.5 w-3.5 text-green-400" />
+      ) : (
+        <IoCopyOutline className="h-3.5 w-3.5" />
+      )}
+    </button>
+  );
+}
 
 export default function VideosPage() {
   const [videos, setVideos] = useState<Video[]>([]);
@@ -37,12 +72,23 @@ export default function VideosPage() {
   async function loadVideos(after?: DocumentSnapshot) {
     setLoading(true);
     try {
-      let q = query(collection(db, "videos"), orderBy("publishedAt", "desc"), limit(PAGE_SIZE));
+      let q = query(
+        collection(db, "videos"),
+        orderBy("publishedAt", "desc"),
+        limit(PAGE_SIZE)
+      );
       if (after) {
-        q = query(collection(db, "videos"), orderBy("publishedAt", "desc"), startAfter(after), limit(PAGE_SIZE));
+        q = query(
+          collection(db, "videos"),
+          orderBy("publishedAt", "desc"),
+          startAfter(after),
+          limit(PAGE_SIZE)
+        );
       }
       const snap = await getDocs(q);
-      const docs = snap.docs.map((d) => ({ id: d.id, ...d.data() } as Video));
+      const docs = snap.docs.map(
+        (d) => ({ id: d.id, ...d.data() } as Video)
+      );
       setVideos(docs);
       setLastDoc(snap.docs[snap.docs.length - 1] || null);
       setHasMore(snap.docs.length === PAGE_SIZE);
@@ -53,7 +99,9 @@ export default function VideosPage() {
     }
   }
 
-  useEffect(() => { loadVideos(); }, []);
+  useEffect(() => {
+    loadVideos();
+  }, []);
 
   function nextPage() {
     if (lastDoc && hasMore) {
@@ -63,14 +111,20 @@ export default function VideosPage() {
   }
 
   const filteredVideos = search
-    ? videos.filter((v) => v.title?.toLowerCase().includes(search.toLowerCase()))
+    ? videos.filter(
+        (v) =>
+          v.title?.toLowerCase().includes(search.toLowerCase()) ||
+          v.id?.toLowerCase().includes(search.toLowerCase())
+      )
     : videos;
 
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold">Videos</h1>
-        <p className="mt-1 text-sm text-gray-400">Browse synced videos from YouTube</p>
+        <p className="mt-1 text-sm text-gray-400">
+          Browse synced videos from YouTube
+        </p>
       </div>
 
       {/* Search */}
@@ -80,7 +134,7 @@ export default function VideosPage() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="w-full rounded-lg border border-border bg-surface pl-10 pr-4 py-2.5 text-sm outline-none focus:border-saffron"
-          placeholder="Search videos on this page..."
+          placeholder="Search by title or video ID..."
         />
       </div>
 
@@ -89,39 +143,89 @@ export default function VideosPage() {
         <table className="w-full text-sm">
           <thead className="border-b border-border bg-surface">
             <tr>
-              <th className="px-4 py-3 text-left font-medium text-gray-400">Thumbnail</th>
-              <th className="px-4 py-3 text-left font-medium text-gray-400">Title</th>
-              <th className="px-4 py-3 text-left font-medium text-gray-400">Channel</th>
-              <th className="px-4 py-3 text-left font-medium text-gray-400">Category</th>
-              <th className="px-4 py-3 text-left font-medium text-gray-400">Published</th>
+              <th className="px-4 py-3 text-left font-medium text-gray-400">
+                Video
+              </th>
+              <th className="px-4 py-3 text-left font-medium text-gray-400">
+                Video ID
+              </th>
+              <th className="px-4 py-3 text-left font-medium text-gray-400">
+                Channel
+              </th>
+              <th className="px-4 py-3 text-left font-medium text-gray-400">
+                Category
+              </th>
+              <th className="px-4 py-3 text-left font-medium text-gray-400">
+                Published
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
             {loading ? (
-              <tr><td colSpan={5} className="px-4 py-12 text-center"><div className="inline-block h-6 w-6 animate-spin rounded-full border-4 border-saffron border-t-transparent" /></td></tr>
-            ) : filteredVideos.length === 0 ? (
-              <tr><td colSpan={5} className="px-4 py-12 text-center text-gray-500">No videos found.</td></tr>
-            ) : filteredVideos.map((v) => (
-              <tr key={v.id} className="transition-colors hover:bg-surface">
-                <td className="px-4 py-3">
-                  {v.thumbnailUrl ? (
-                    <img src={v.thumbnailUrl} alt="" className="h-10 w-16 rounded object-cover" />
-                  ) : (
-                    <div className="flex h-10 w-16 items-center justify-center rounded bg-surface-hover"><IoPlayOutline className="h-4 w-4 text-gray-500" /></div>
-                  )}
+              <tr>
+                <td colSpan={5} className="px-4 py-12 text-center">
+                  <div className="inline-block h-6 w-6 animate-spin rounded-full border-4 border-saffron border-t-transparent" />
                 </td>
-                <td className="px-4 py-3">
-                  <div className="max-w-xs truncate font-medium">{v.title || v.id}</div>
-                </td>
-                <td className="px-4 py-3 text-gray-400">{v.channelTitle || "-"}</td>
-                <td className="px-4 py-3">
-                  {v.category ? (
-                    <span className="rounded-full bg-surface-hover px-2.5 py-0.5 text-xs">{v.category}</span>
-                  ) : "-"}
-                </td>
-                <td className="px-4 py-3 text-xs text-gray-400">{v.publishedAt || "-"}</td>
               </tr>
-            ))}
+            ) : filteredVideos.length === 0 ? (
+              <tr>
+                <td
+                  colSpan={5}
+                  className="px-4 py-12 text-center text-gray-500"
+                >
+                  No videos found.
+                </td>
+              </tr>
+            ) : (
+              filteredVideos.map((v) => (
+                <tr
+                  key={v.id}
+                  className="transition-colors hover:bg-surface"
+                >
+                  <td className="px-4 py-3">
+                    <div className="flex items-center gap-3">
+                      {v.thumbnailUrl ? (
+                        <img
+                          src={v.thumbnailUrl}
+                          alt=""
+                          className="h-10 w-16 rounded object-cover shrink-0"
+                        />
+                      ) : (
+                        <div className="flex h-10 w-16 items-center justify-center rounded bg-surface-hover shrink-0">
+                          <IoPlayOutline className="h-4 w-4 text-gray-500" />
+                        </div>
+                      )}
+                      <div className="max-w-xs truncate font-medium">
+                        {v.title || v.id}
+                      </div>
+                    </div>
+                  </td>
+                  <td className="px-4 py-3">
+                    <div className="flex items-center gap-1.5">
+                      <code className="rounded bg-surface-hover px-2 py-0.5 text-xs font-mono text-saffron">
+                        {v.id}
+                      </code>
+                      <CopyButton text={v.id} />
+                    </div>
+                  </td>
+                  <td className="px-4 py-3 text-gray-400">
+                    {v.channelTitle || "-"}
+                  </td>
+                  <td className="px-4 py-3">
+                    {v.category ? (
+                      <span className="rounded-full bg-surface-hover px-2.5 py-0.5 text-xs">
+                        {v.category}
+                      </span>
+                    ) : (
+                      "-"
+                    )}
+                  </td>
+                  <td className="px-4 py-3 text-xs text-gray-400">
+                    {v.publishedAt || "-"}
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
@@ -131,7 +235,10 @@ export default function VideosPage() {
         <span className="text-sm text-gray-400">Page {page}</span>
         <div className="flex gap-2">
           <button
-            onClick={() => { setPage(1); loadVideos(); }}
+            onClick={() => {
+              setPage(1);
+              loadVideos();
+            }}
             disabled={page === 1}
             className="flex items-center gap-1 rounded-lg border border-border px-3 py-1.5 text-sm text-gray-400 hover:text-foreground disabled:opacity-30"
           >

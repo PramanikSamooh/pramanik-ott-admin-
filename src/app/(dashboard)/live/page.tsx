@@ -55,8 +55,8 @@ export default function LiveControlPage() {
   const [override, setOverride] = useState<LiveOverride | null>(null);
   const [loading, setLoading] = useState(true);
   const [videoInput, setVideoInput] = useState("");
-  const [channelKey, setChannelKey] = useState("main");
-  const [channelName, setChannelName] = useState("Pramanik Samooh");
+  const [channelKey, setChannelKey] = useState("pramansagarji");
+  const [channelName, setChannelName] = useState("Muni Pramansagar Ji");
   const [submitting, setSubmitting] = useState(false);
   const { toast } = useToast();
 
@@ -304,31 +304,26 @@ export default function LiveControlPage() {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="mb-1 block text-sm font-medium text-gray-300">
-                    Channel Key
-                  </label>
-                  <input
-                    type="text"
-                    value={channelKey}
-                    onChange={(e) => setChannelKey(e.target.value)}
-                    className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm outline-none focus:border-saffron focus:ring-2 focus:ring-saffron/30"
-                    placeholder="main"
-                  />
-                </div>
-                <div>
-                  <label className="mb-1 block text-sm font-medium text-gray-300">
-                    Channel Name
-                  </label>
-                  <input
-                    type="text"
-                    value={channelName}
-                    onChange={(e) => setChannelName(e.target.value)}
-                    className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm outline-none focus:border-saffron focus:ring-2 focus:ring-saffron/30"
-                    placeholder="Pramanik Samooh"
-                  />
-                </div>
+              <div>
+                <label className="mb-1 block text-sm font-medium text-gray-300">
+                  Channel
+                </label>
+                <select
+                  value={channelKey}
+                  onChange={(e) => {
+                    const key = e.target.value;
+                    setChannelKey(key);
+                    setChannelName(
+                      key === "pramansagarji"
+                        ? "Muni Pramansagar Ji"
+                        : "Jain Pathshala"
+                    );
+                  }}
+                  className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm outline-none focus:border-saffron focus:ring-2 focus:ring-saffron/30"
+                >
+                  <option value="pramansagarji">Muni Pramansagar Ji</option>
+                  <option value="jainpathshala">Jain Pathshala</option>
+                </select>
               </div>
 
               {videoInput && extractVideoId(videoInput).length === 11 && (

@@ -9,13 +9,15 @@ import { IoSaveOutline, IoSettingsOutline } from "react-icons/io5";
 interface AppConfig {
   appVersion: string;
   minVersion: string;
+  minVersionCode: number;
   maintenanceMode: boolean;
   maintenanceMessage: string;
 }
 
 const defaults: AppConfig = {
-  appVersion: "1.0.0",
-  minVersion: "1.0.0",
+  appVersion: "2.3.0",
+  minVersion: "2.3.0",
+  minVersionCode: 6,
   maintenanceMode: false,
   maintenanceMessage: "",
 };
@@ -94,7 +96,18 @@ export default function SettingsPage() {
                 className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm outline-none focus:border-saffron focus:ring-2 focus:ring-saffron/30"
                 placeholder="1.0.0"
               />
-              <p className="mt-1 text-xs text-gray-500">Users below this version will be forced to update</p>
+              <p className="mt-1 text-xs text-gray-500">Display version (e.g., 2.3.0)</p>
+            </div>
+            <div>
+              <label className="mb-1 block text-sm font-medium text-gray-300">Minimum Version Code (integer)</label>
+              <input
+                type="number"
+                value={config.minVersionCode}
+                onChange={(e) => setConfig({ ...config, minVersionCode: parseInt(e.target.value) || 0 })}
+                className="w-full rounded-lg border border-border bg-background px-4 py-2.5 text-sm outline-none focus:border-saffron focus:ring-2 focus:ring-saffron/30"
+                placeholder="6"
+              />
+              <p className="mt-1 text-xs text-gray-500">Users with version code below this will be forced to update. Current release: 6</p>
             </div>
           </div>
         </div>
