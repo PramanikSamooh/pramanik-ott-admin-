@@ -20,6 +20,7 @@ import {
   IoTrashOutline,
   IoCloseOutline,
 } from "react-icons/io5";
+import { isValidUrl, sanitizeUrl } from "@/lib/validation";
 
 interface DonationOrg {
   id: string;
@@ -105,14 +106,25 @@ export default function DonationsPage() {
   }
 
   async function handleSave() {
+    // Validate QR code URL before saving
+    if (form.qrCodeUrl && !isValidUrl(form.qrCodeUrl)) {
+      toast("Invalid QR Code URL — must start with https:// or http://", "error");
+      return;
+    }
+
+    const sanitizedForm = {
+      ...form,
+      qrCodeUrl: sanitizeUrl(form.qrCodeUrl),
+    };
+
     setSaving(true);
     try {
       if (editing) {
-        await updateDoc(doc(db, "donations", editing.id), { ...form });
+        await updateDoc(doc(db, "donations", editing.id), { ...sanitizedForm });
         toast("Organization updated");
       } else {
         await addDoc(collection(db, "donations"), {
-          ...form,
+          ...sanitizedForm,
           createdAt: Timestamp.now(),
         });
         toast("Organization added");

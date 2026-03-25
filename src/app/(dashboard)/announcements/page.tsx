@@ -21,6 +21,7 @@ import {
   IoTrashOutline,
   IoCloseOutline,
 } from "react-icons/io5";
+import { isValidUrl, sanitizeUrl } from "@/lib/validation";
 
 interface Announcement {
   id: string;
@@ -105,14 +106,30 @@ export default function AnnouncementsPage() {
   }
 
   async function handleSave() {
+    // Validate URLs before saving
+    if (form.imageUrl && !isValidUrl(form.imageUrl)) {
+      toast("Invalid Image URL — must start with https:// or http://", "error");
+      return;
+    }
+    if (form.actionUrl && !isValidUrl(form.actionUrl)) {
+      toast("Invalid Action URL — must start with https:// or http://", "error");
+      return;
+    }
+
+    const sanitizedForm = {
+      ...form,
+      imageUrl: sanitizeUrl(form.imageUrl),
+      actionUrl: sanitizeUrl(form.actionUrl),
+    };
+
     setSaving(true);
     try {
       if (editing) {
-        await updateDoc(doc(db, "announcements", editing.id), { ...form });
+        await updateDoc(doc(db, "announcements", editing.id), { ...sanitizedForm });
         toast("Announcement updated");
       } else {
         await addDoc(collection(db, "announcements"), {
-          ...form,
+          ...sanitizedForm,
           createdAt: Timestamp.now(),
         });
         toast("Announcement created");

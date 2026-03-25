@@ -12,6 +12,7 @@ import {
   IoSaveOutline,
   IoCloseOutline,
 } from "react-icons/io5";
+import { isValidYouTubeInput } from "@/lib/validation";
 
 interface HeroVideo {
   videoId: string;
@@ -75,6 +76,10 @@ export default function HeroVideosPage() {
   }
 
   async function handleAdd() {
+    if (!isValidYouTubeInput(addInput)) {
+      toast("Invalid input — must be a YouTube URL (https://...) or 11-char video ID", "error");
+      return;
+    }
     const videoId = extractVideoId(addInput);
     if (!videoId) {
       toast("Please enter a valid YouTube video ID or URL", "error");
