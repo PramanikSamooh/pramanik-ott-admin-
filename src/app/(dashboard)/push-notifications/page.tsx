@@ -25,7 +25,7 @@ export default function PushNotificationsPage() {
   const [sending, setSending] = useState(false);
   const [logs, setLogs] = useState<NotificationLog[]>([]);
   const [loading, setLoading] = useState(true);
-  const toast = useToast();
+  const { toast } = useToast();
 
   useEffect(() => {
     loadLogs();
