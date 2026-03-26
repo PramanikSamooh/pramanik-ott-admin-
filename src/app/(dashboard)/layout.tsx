@@ -23,6 +23,7 @@ import {
   IoLogOutOutline,
   IoImageOutline,
   IoPulseOutline,
+  IoNotificationsOutline,
 } from "react-icons/io5";
 
 const navItems = [
@@ -35,6 +36,7 @@ const navItems = [
   { href: "/donations", label: "Donations", icon: IoHeartOutline },
   { href: "/hero", label: "Hero Videos", icon: IoImageOutline },
   { href: "/live", label: "Live Control", icon: IoPulseOutline },
+  { href: "/push-notifications", label: "Push Notifications", icon: IoNotificationsOutline },
   { href: "/categories", label: "Categories", icon: IoLayersOutline },
   { href: "/videos", label: "Videos", icon: IoVideocamOutline },
   { href: "/settings", label: "Settings", icon: IoSettingsOutline },
