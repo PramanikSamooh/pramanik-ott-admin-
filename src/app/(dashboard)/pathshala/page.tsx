@@ -257,7 +257,7 @@ export default function PathshalaPage() {
                       {c.titleHi && <div className="text-xs text-gray-400">{c.titleHi}</div>}
                     </td>
                     <td className="px-4 py-3 text-gray-300">{getTeacherName(c.teacherId)}</td>
-                    <td className="px-4 py-3 text-gray-300">{DAYS[c.dayOfWeek]} {c.time} {c.timezone}</td>
+                    <td className="px-4 py-3 text-gray-300">{Array.isArray(c.dayOfWeek) ? c.dayOfWeek.map((d) => DAYS[d]).join(", ") : DAYS[c.dayOfWeek]} {c.time} {c.timezone}</td>
                     <td className="px-4 py-3"><span className="rounded-full bg-surface-hover px-2.5 py-0.5 text-xs">{c.language}</span></td>
                     <td className="px-4 py-3">
                       <span className={`text-xs font-medium ${c.active ? "text-green-400" : "text-gray-500"}`}>{c.active ? "Active" : "Inactive"}</span>
@@ -285,7 +285,7 @@ export default function PathshalaPage() {
               <div key={day} className="rounded-xl border border-border bg-surface">
                 <div className="border-b border-border px-3 py-2 text-center text-xs font-semibold text-gray-400">{day}</div>
                 <div className="space-y-2 p-2 min-h-[120px]">
-                  {classes.filter((c) => c.dayOfWeek === di && c.active).map((c) => (
+                  {classes.filter((c) => (Array.isArray(c.dayOfWeek) ? c.dayOfWeek.includes(di) : c.dayOfWeek === di) && c.active).map((c) => (
                     <div key={c.id} className="rounded-lg bg-saffron/10 border border-saffron/20 p-2">
                       <div className="text-xs font-medium text-saffron">{c.time} {c.timezone}</div>
                       <div className="text-xs font-medium text-foreground mt-0.5">{c.title}</div>
@@ -382,10 +382,26 @@ export default function PathshalaPage() {
               </div>
               <div className="grid grid-cols-3 gap-3">
                 <div>
-                  <label className="mb-1 block text-xs text-gray-400">Day of Week</label>
-                  <select value={cForm.dayOfWeek} onChange={(e) => setCForm({ ...cForm, dayOfWeek: parseInt(e.target.value) })} className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none focus:border-saffron">
-                    {DAYS.map((d, i) => <option key={d} value={i}>{d}</option>)}
-                  </select>
+                  <label className="mb-1 block text-xs text-gray-400">Days of Week</label>
+                  <div className="flex flex-wrap gap-1.5">
+                    {DAYS.map((d, i) => {
+                      const selected = Array.isArray(cForm.dayOfWeek) ? cForm.dayOfWeek.includes(i) : cForm.dayOfWeek === i;
+                      return (
+                        <button
+                          key={d}
+                          type="button"
+                          onClick={() => {
+                            const current = Array.isArray(cForm.dayOfWeek) ? cForm.dayOfWeek : [cForm.dayOfWeek];
+                            const updated = selected ? current.filter((x) => x !== i) : [...current, i].sort();
+                            setCForm({ ...cForm, dayOfWeek: updated.length > 0 ? updated : [i] });
+                          }}
+                          className={`rounded-md border px-2 py-1 text-xs ${selected ? "border-saffron bg-saffron/15 text-saffron" : "border-border text-gray-400"}`}
+                        >
+                          {d.slice(0, 3)}
+                        </button>
+                      );
+                    })}
+                  </div>
                 </div>
                 <div>
                   <label className="mb-1 block text-xs text-gray-400">Time</label>
