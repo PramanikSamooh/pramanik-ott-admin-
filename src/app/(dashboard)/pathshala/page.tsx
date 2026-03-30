@@ -130,7 +130,7 @@ export default function PathshalaPage() {
   }
   function openClassEdit(c: PClass) {
     setEditingClass(c);
-    setCForm({ title: c.title, titleHi: c.titleHi, teacherId: c.teacherId, language: c.language, dayOfWeek: c.dayOfWeek, time: c.time, timezone: c.timezone, youtubeLink: c.youtubeLink, description: c.description, recurring: c.recurring, active: c.active });
+    setCForm({ title: c.title, titleHi: c.titleHi, teacherId: c.teacherId, language: c.language, dayOfWeek: Array.isArray(c.dayOfWeek) ? c.dayOfWeek : [c.dayOfWeek], time: c.time, timezone: c.timezone, youtubeLink: c.youtubeLink, description: c.description, recurring: c.recurring, active: c.active });
     setShowModal("class");
   }
   async function saveClass() {
