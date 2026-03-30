@@ -38,7 +38,7 @@ interface PClass {
   titleHi: string;
   teacherId: string;
   language: string;
-  dayOfWeek: number;
+  dayOfWeek: number | number[];
   time: string;
   timezone: string;
   youtubeLink: string;
@@ -52,7 +52,7 @@ const LANGUAGES = ["Hindi", "English", "Marathi", "Gujarati"];
 const TIMEZONES = ["IST", "EST", "CST", "PST", "GMT", "CET"];
 
 const emptyTeacher = { name: "", nameHi: "", photoUrl: "", language: "Hindi", bio: "", active: true };
-const emptyClass = { title: "", titleHi: "", teacherId: "", language: "Hindi", dayOfWeek: 1, time: "08:00", timezone: "IST", youtubeLink: "", description: "", recurring: true, active: true };
+const emptyClass = { title: "", titleHi: "", teacherId: "", language: "Hindi", dayOfWeek: [1] as number[], time: "08:00", timezone: "IST", youtubeLink: "", description: "", recurring: true, active: true };
 
 type Tab = "teachers" | "classes" | "schedule";
 

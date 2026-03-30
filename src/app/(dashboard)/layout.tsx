@@ -25,6 +25,7 @@ import {
   IoPulseOutline,
   IoNotificationsOutline,
   IoFilmOutline,
+  IoCalendarOutline,
 } from "react-icons/io5";
 
 const navItems = [
@@ -39,6 +40,7 @@ const navItems = [
   { href: "/live", label: "Live Control", icon: IoPulseOutline },
   { href: "/push-notifications", label: "Push Notifications", icon: IoNotificationsOutline },
   { href: "/preroll", label: "Pre-roll Videos", icon: IoFilmOutline },
+  { href: "/events", label: "Event Videos", icon: IoCalendarOutline },
   { href: "/categories", label: "Categories", icon: IoLayersOutline },
   { href: "/videos", label: "Videos", icon: IoVideocamOutline },
   { href: "/settings", label: "Settings", icon: IoSettingsOutline },
