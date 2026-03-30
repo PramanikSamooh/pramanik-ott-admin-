@@ -27,9 +27,13 @@ interface Announcement {
   id: string;
   title: string;
   titleHi: string;
+  body: string;
+  bodyHi: string;
   type: "event" | "quote" | "location" | "notification";
   imageUrl: string;
   actionUrl: string;
+  actionLabel: string;
+  actionLabelHi: string;
   priority: number;
   active: boolean;
   showOnMobile: boolean;
@@ -42,9 +46,13 @@ interface Announcement {
 const emptyAnnouncement: Omit<Announcement, "id" | "createdAt"> = {
   title: "",
   titleHi: "",
+  body: "",
+  bodyHi: "",
   type: "notification",
   imageUrl: "",
   actionUrl: "",
+  actionLabel: "",
+  actionLabelHi: "",
   priority: 0,
   active: true,
   showOnMobile: true,
@@ -92,9 +100,13 @@ export default function AnnouncementsPage() {
     setForm({
       title: a.title,
       titleHi: a.titleHi,
+      body: a.body || "",
+      bodyHi: a.bodyHi || "",
       type: a.type,
       imageUrl: a.imageUrl,
       actionUrl: a.actionUrl,
+      actionLabel: a.actionLabel || "",
+      actionLabelHi: a.actionLabelHi || "",
       priority: a.priority,
       active: a.active,
       showOnMobile: a.showOnMobile ?? true,
@@ -253,7 +265,7 @@ export default function AnnouncementsPage() {
       {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
-          <div className="w-full max-w-lg rounded-xl border border-border bg-surface p-6">
+          <div className="w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-xl border border-border bg-surface p-6">
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-lg font-bold">{editing ? "Edit" : "New"} Announcement</h2>
               <button onClick={() => setShowModal(false)} className="text-gray-400 hover:text-foreground">
@@ -269,6 +281,16 @@ export default function AnnouncementsPage() {
                 <div>
                   <label className="mb-1 block text-xs text-gray-400">Title (Hindi)</label>
                   <input value={form.titleHi} onChange={(e) => setForm({ ...form, titleHi: e.target.value })} className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none focus:border-saffron" />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="mb-1 block text-xs text-gray-400">Description (English)</label>
+                  <textarea value={form.body} onChange={(e) => setForm({ ...form, body: e.target.value })} rows={2} className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none focus:border-saffron" placeholder="Announcement details..." />
+                </div>
+                <div>
+                  <label className="mb-1 block text-xs text-gray-400">Description (Hindi)</label>
+                  <textarea value={form.bodyHi} onChange={(e) => setForm({ ...form, bodyHi: e.target.value })} rows={2} className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none focus:border-saffron" placeholder="विवरण..." />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-3">
@@ -293,6 +315,16 @@ export default function AnnouncementsPage() {
               <div>
                 <label className="mb-1 block text-xs text-gray-400">Action URL</label>
                 <input value={form.actionUrl} onChange={(e) => setForm({ ...form, actionUrl: e.target.value })} className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none focus:border-saffron" placeholder="https://..." />
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="mb-1 block text-xs text-gray-400">Action Label (English)</label>
+                  <input value={form.actionLabel} onChange={(e) => setForm({ ...form, actionLabel: e.target.value })} className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none focus:border-saffron" placeholder="e.g. Learn More" />
+                </div>
+                <div>
+                  <label className="mb-1 block text-xs text-gray-400">Action Label (Hindi)</label>
+                  <input value={form.actionLabelHi} onChange={(e) => setForm({ ...form, actionLabelHi: e.target.value })} className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm outline-none focus:border-saffron" placeholder="e.g. और जानें" />
+                </div>
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
