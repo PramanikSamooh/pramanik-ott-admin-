@@ -295,6 +295,17 @@ export default function LiveControlPage() {
                   )}
                 </div>
               )}
+            {/* Force Clear — when LIVE is stuck but no override exists */}
+              {status.isLive && !override?.active && (
+                <button
+                  onClick={handleClearLive}
+                  disabled={submitting}
+                  className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg border border-red-500/50 px-4 py-2.5 text-sm font-semibold text-red-400 hover:bg-red-500/10 disabled:opacity-50"
+                >
+                  <IoStopOutline className="h-4 w-4" />
+                  {submitting ? "Clearing..." : "Force Clear Live Status"}
+                </button>
+              )}
             </div>
           ) : (
             <p className="text-sm text-gray-500">No live status data found.</p>
