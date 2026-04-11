@@ -41,6 +41,7 @@ const navItems = [
   { href: "/push-notifications", label: "Push Notifications", icon: IoNotificationsOutline },
   { href: "/preroll", label: "Pre-roll Videos", icon: IoFilmOutline },
   { href: "/events", label: "Event Videos", icon: IoCalendarOutline },
+  { href: "/panchang", label: "Panchang Import", icon: IoCalendarOutline },
   { href: "/categories", label: "Categories", icon: IoLayersOutline },
   { href: "/videos", label: "Videos", icon: IoVideocamOutline },
   { href: "/settings", label: "Settings", icon: IoSettingsOutline },
