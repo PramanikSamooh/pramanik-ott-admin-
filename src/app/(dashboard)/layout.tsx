@@ -42,6 +42,7 @@ const navItems = [
   { href: "/preroll", label: "Pre-roll Videos", icon: IoFilmOutline },
   { href: "/events", label: "Event Videos", icon: IoCalendarOutline },
   { href: "/panchang", label: "Panchang Import", icon: IoCalendarOutline },
+  { href: "/jain-channels", label: "Jain TV Channels", icon: IoCalendarOutline },
   { href: "/categories", label: "Categories", icon: IoLayersOutline },
   { href: "/videos", label: "Videos", icon: IoVideocamOutline },
   { href: "/settings", label: "Settings", icon: IoSettingsOutline },
